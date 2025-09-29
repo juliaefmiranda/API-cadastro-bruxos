@@ -5,6 +5,12 @@ const { bruxos } = dados;
 const getAllBruxos = (req, res) => {
   let resultado = bruxos;
 
+  const { casa } = req.query;
+
+  if (casa) {
+    resultado = resultado.filter(b => b.casa.toLowerCase().includes(casa.toLowerCase()));
+  }
+
   res.status(200).json({
     status: 200,
     success: true,
@@ -36,14 +42,14 @@ const getBruxoById = (req, res) => {
     status: 200,
     success: true,
     message: "Lista de bruxos por Id convocada com sucesso!",
-    total: bruxos.length,
-    data: bruxos,
+    data: bruxo,
   });
 };
 
 const createBruxo = (req, res) => {
-const { nome, casa, anoNascimento, especialidade, nivelMagia, ativo } = req.body;
-const nomeExiste = bruxos.find(b => b.nome.toLowerCase() === b.nome.toLowerCase());
+const { nome, casa, anoNascimento, especialidade, nivelMagia, ativo, varinha } = req.body;
+const nomeExiste = bruxos.find(b => b.nome.toLowerCase() === nome.toLowerCase());
+
 const casasOficiais = ["Grifinoria", "Sonserina", "Corvinal", "Lufa-Lufa"];
 
   if (!nome) {
@@ -56,11 +62,19 @@ const casasOficiais = ["Grifinoria", "Sonserina", "Corvinal", "Lufa-Lufa"];
     });
   };
 
-  if (!casasOficiais) {
+  if (!casasOficiais.includes(casa)) {
     return res.status(400).json({
         status: 400,
         success: false,
         message: "A casa deve ser uma das quatro oficiais!"
+    });
+  }
+
+  if (varinha.length < 3) {
+    return res.status(400).json({
+      status: 400,
+      success: false,
+      messsage: "A varinha não pode ter menos de 3 caracteres!"
     });
   }
 
@@ -127,15 +141,34 @@ const deleteBruxo = (req, res) => {
 };
 
 const updateBruxo = (req, res) => {
-  const { id } = req.params;
-  const { nome, casa, anoNascimento, especialidade, nivelMagia, ativo } =
+const { id } = req.params;
+const { nome, casa, anoNascimento, especialidade, nivelMagia, ativo } =
     req.body;
+const casasOficiais = ["Grifinoria", "Sonserina", "Corvinal", "Lufa-Lufa"];
 
   if (isNaN(id)) {
     return res.status(400).json({
       status: 400,
       success: false,
       message: "ID deve ser um número válido!",
+    });
+  }
+
+    if (!nome) {
+    return res.status(400).json({
+      status: 400,
+      sucess: false,
+      message: "Feitiço mal executado, verifique os ingredientes!",
+      error: "VALIDATION_ERROR",
+      details: "O campo nome deve ser preenchido!",
+    });
+  };
+
+  if (!casasOficiais.includes(casa)) {
+    return res.status(400).json({
+        status: 400,
+        success: false,
+        message: "A casa deve ser uma das quatro oficiais!"
     });
   }
 

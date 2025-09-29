@@ -6,7 +6,8 @@ const bruxos = [
         anoNascimento: 1980,
         especialidade: "Defesa Contra as Artes das Trevas",
         nivelMagia: "Avançado",
-        ativo: true
+        ativo: true,
+        varinha: "Azevinho, pena de fênix, 11 polegadas"
     },
     {
         id: 2,
@@ -15,7 +16,8 @@ const bruxos = [
         anoNascimento: 1979,
         especialidade: "Transfiguração",
         nivelMagia: "Mestre",
-        ativo: true
+        ativo: true,
+        varinha: "Videira, corda de coração de dragão, 10.75 polegadas"
     },
     {
         id: 3,
@@ -24,7 +26,8 @@ const bruxos = [
         anoNascimento: 1980,
         especialidade: "Poções",
         nivelMagia: "Intermediário",
-        ativo: false
+        ativo: false,
+        varinha: "Espinheiro, corda de coração de dragão, 10 polegadas"
     }
 ];
 
